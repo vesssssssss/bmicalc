@@ -261,6 +261,15 @@ if(strcmp(newNode->name, name)==0)
     }
     newNode=curr->next;
 }
+curr = *head;
+    struct BMIHistory *temp;
+
+    while (curr != NULL) {
+        temp = curr;
+        curr = curr->next;
+        free(temp);
+    }
+    *head = NULL;
 }
 fclose(fp);
 }
