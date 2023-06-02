@@ -19,6 +19,9 @@ void calculateBMI(struct BMIHistory **head);
 void showStatistics();
 void displayHistory(struct BMIHistory **head);
 void delete(struct BMIHistory **head, char name[]);
+void purple();
+void printMenu();
+void printHeart();
 
 FILE *fp;
 int main()
@@ -28,44 +31,84 @@ int option;
 char name [20], name1[20];
 float height, weight;
 do {
-printf("\n\nWelcome to S&V BMI (Body Mass Index) Calculator! ");
-printf("This program calculates your BMI based on your height and weight. BMI is a measure of body fat based on your weight and height ratio. It provides an indication of whether you are underweight, normal weight, overweight, or obese.\n\n\
-MENU\n\n\
-- 1. Calculate your BMI\n\
-- 2. Find BMI range and get advice\n\
-- 3. Display history\n\
-- 4. Delete in history\n\
-- 5. Exit");
-printf("\n\n");
-scanf("%d", &option);
-switch (option)
-{
-case 1:
-calculateBMI(&head);
-break;
-case 2:
-showStatistics();
-break;
-case 3:
-displayHistory(&head);
-break;
-case 4:
-printf("Enter the name corresponding to the calculation you want to delete: ");
-scanf("%s", name);
-delete(&head, name);
-break;
-case 5:
-printf("Thank you for trying our service!");
-break;
-default:
-printf("Invalid option");
-break;
-}
-}
-while (option!=5);
-return 0;
+        printMenu();
+        printf("Enter your option: ");
+        scanf("%d", &option);
+
+        switch (option) {
+            case 1:
+                calculateBMI(&head);
+                break;
+            case 2:
+                showStatistics();
+                break;
+            case 3:
+                displayHistory(&head);
+                break;
+            case 4:
+                printf("Enter the name corresponding to the calculation you want to delete: ");
+                scanf("%s", name);
+                delete(&head, name);
+                break;
+            case 5:
+                printf("Thank you for using S&V BMI Calculator!\n");
+                printHeart();
+                break;
+            default:
+                printf("Invalid option. Please try again.\n");
+                break;
+        }
+
+        printf("\n");
+    } 
+    while (option != 5);
+    return 0;
 }
  
+void purple()
+{
+printf("\033[0;35m");
+}
+
+void printMenu()
+{
+    printf("\n");
+    purple();
+    printf("*************************************\n");
+    printf("* Welcome to S&V BMI Calculator!    *\n");
+    printf("* This program calculates your BMI  *\n");
+    printf("* based on your height and weight.  *\n");
+    printf("* BMI is a measure of body fat      *\n");
+    printf("* based on your weight and height   *\n");
+    printf("* ratio. It provides an indication  *\n");
+    printf("* of whether you are underweight,   *\n");
+    printf("* normal weight, overweight, or     *\n");
+    printf("* obese.                            *\n");
+    printf("*************************************\n");
+    printf("* MENU                              *\n");
+    printf("*                                   *\n");
+    printf("* 1. Calculate your BMI             *\n");
+    printf("* 2. Find BMI range and get advice  *\n");
+    printf("* 3. Display history                *\n");
+    printf("* 4. Delete in history              *\n");
+    printf("* 5. Exit                           *\n");
+    printf("*************************************\n");
+    printf("\n");
+}
+
+void printHeart() {
+    printf("\n");
+    printf("   ***    ***                   \n");
+    printf("  *****  *****                  \n");
+    printf(" **************                 \n");
+    printf("****************                 \n");
+    printf(" **************                  \n");
+    printf("   **********             \n");
+    printf("     ******               \n");
+    printf("       **    \n");
+}
+
+
 float inputUserHeight()
 {
 float height;
@@ -278,7 +321,7 @@ void delete(struct BMIHistory **head, char name[]) {
     struct BMIHistory *curr = *head;
     struct BMIHistory *prev = NULL;
     struct BMIHistory *temp = NULL;
-    int reservationFound = 0;
+    int found = 0;
  
     fp = fopen("bmi_history.txt", "r");
     if (fp == NULL) {
@@ -313,7 +356,7 @@ void delete(struct BMIHistory **head, char name[]) {
         *head = curr->next;
         free(curr);
         printf("History with name %s has been canceled.\n", name);
-        reservationFound = 1;
+        found = 1;
     } else {
         while (curr != NULL && strcmp(curr->name, name) != 0) {
             prev = curr;
@@ -324,12 +367,15 @@ void delete(struct BMIHistory **head, char name[]) {
             prev->next = curr->next;
             free(curr);
             printf("History with name %s has been canceled.\n", name);
-            reservationFound = 1;
+            found = 1;
+            //return;
+
         }
     }
  
-    if (!reservationFound) {
+    if (!found) {
         printf("History with name %s not found.\n", name);
+        return;
     }
  
     fp = fopen("bmi_history.txt", "w");
