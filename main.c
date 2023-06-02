@@ -117,6 +117,10 @@ printf("Please choose the desired unit:\n\
 1. Inches(in)\n\
 2. Centimeters (cm): \n ");
 scanf("%d", &h_number);
+if(h_number!=1 && h_number!=2){
+printf("\nInvalid option! Please try again!\n");
+return inputUserHeight();
+}
 if (h_number==1)
 {
 printf("Please enter your height: ");
@@ -148,6 +152,10 @@ printf("Please choose the desired unit:\n\
 1. Pounds(lb)\n\
 2. Kilograms (kg): \n ");
 scanf("%d", &w_number);
+if(w_number!=1 && w_number!=2){
+printf("\nInvalid option! Please try again!\n");
+return inputUserWeight();
+}
 if (w_number==1)
 {
 printf("Please enter your weight: ");
@@ -211,6 +219,10 @@ scanf("%f", &bmi);
 printf("If you want advice based on your result press 1 if not press 0: \n");
 int option;
 scanf("%d", &option);
+if(option!=1 && option!=0){
+    printf("\nInvalid option! Please try again!\n");
+    return showStatistics();
+}
 if (bmi < 18.5) {
 printf("Category: Underweight\n");
 if (option) {
